@@ -1,1 +1,1 @@
-# medical-encyclopedia-app
+# medical-encyclopedia
