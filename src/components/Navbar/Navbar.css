@@ -1,0 +1,171 @@
+.tooltip-content {
+    display: none;
+}
+@media (min-width: 768px) {
+    .tooltip-menu {
+        display: inline-block;
+        position: relative;
+    }
+
+    .tooltip-content {
+        z-index: 100000000000000000000000000000000000000000;
+        display: block;
+        position: absolute;
+        bottom: -250px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 12px;
+        font-size: 15px;
+        white-space: nowrap;
+        border-radius: 10px;
+        height: 184px;
+        width: 295px;
+        color: #3e4653be;
+        background-color: rgba(240, 240, 240, 0.95);
+        border-top: 1px solid rgb(240, 240, 240);
+        border-left: 1px solid rgb(240, 240, 240);
+        opacity: 0;
+        visibility: hidden;
+        box-shadow: 0 0 40px 8px #0000004d, 0 -3px 10px 0 #00000001,
+            0 3px 10px 0 #00000001, -3px 0 10px 0 #00000001,
+            3px 0 10px 0 #00000001;
+        transition: 0.2s ease;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        -webkit-transition: 0.2s ease;
+        -moz-transition: 0.2s ease;
+        -ms-transition: 0.2s ease;
+        -o-transition: 0.2s ease;
+    }
+
+    .tooltip-content * {
+        color: #3e4653be;
+    }
+
+    .tooltip-content a {
+        border-radius: 10px;
+        color: inherit !important;
+        font-style: unset;
+        text-decoration: unset;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+
+    .tooltip-menu:hover .tooltip-content {
+        opacity: 1;
+        visibility: visible;
+        bottom: -245px;
+        width: 300px;
+        padding: 20px 0 0 20px;
+    }
+
+    .tooltip-menu:hover .tooltip-btn-shadow {
+        box-shadow: rgb(70 83 93) 2px 4px 0px 0px,
+            rgb(0 0 0 / 12%) 0px 3px 14px 2px, rgb(0 0 0 / 20%) 0px 5px 5px -3px !important;
+    }
+
+    .tooltip-content::before {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: 90px;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+        border-width: 5px;
+        border-style: solid;
+        border-color: rgb(240, 240, 240) transparent transparent rgb(240, 240, 240);
+        opacity: 0;
+        transition: 0.15s ease;
+        -webkit-transform: translateX(-50%) rotate(45deg);
+        -moz-transform: translateX(-50%) rotate(45deg);
+        -ms-transform: translateX(-50%) rotate(45deg);
+        -o-transform: translateX(-50%) rotate(45deg);
+}
+
+    .tooltip-menu:hover .tooltip-content::before {
+        opacity: 1;
+        bottom: 178px;
+    }
+
+    .tooltip-content::after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 70px;
+        opacity: 0;
+        transition: 0.15s ease;
+    }
+
+    .tooltip-menu:hover .tooltip-content::after {
+        opacity: 1;
+        bottom: 178px;
+    }
+
+    .tooltip-content .tooltip-container {
+        position: relative;
+        display: block;
+        left: 20px;
+        word-wrap: break-word;
+        word-break: break-all;
+        border-radius: 10px;
+        border-bottom: 1px solid rgb(240, 240, 240);
+        border-right: 1px solid rgb(240, 240, 240);
+        width: 300px;
+        background: linear-gradient(45deg, #fe6b8bda 30%, #ff8e53da 90%);
+        padding: 10px 20px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+
+    .tooltip-content .header {
+        display: block;
+        width: 100%;
+        height: 40px;
+        padding-bottom: 6px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid rgb(0, 0, 0);
+    }
+
+    .tooltip-content .box {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        word-break: break-all;
+    }
+
+    .tooltip-content .box .box-content {
+        display: block;
+        width: 50%;
+        word-break: break-all;
+        margin-bottom: 1rem !important;
+        line-height: 50px;
+    }
+
+    .tooltip-content .box .box-content [class*="fa-angle-left"] {
+        margin-right: 4px;
+        transition: margin 0.2s;
+    }
+
+    .tooltip-content .box .box-content [class*="fa-angle-right"] {
+        margin-left: 4px;
+        transition: margin 0.2s;
+    }
+
+    .tooltip-content .box .box-content:hover [class*="fa-angle-left"] {
+        margin-right: 8px;
+    }
+
+    .tooltip-content .box .box-content:hover [class*="fa-angle-right"] {
+        margin-left: 8px;
+    }
+}

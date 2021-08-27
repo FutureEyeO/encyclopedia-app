@@ -1,22 +1,131 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Btn } from "./components/styles/Buttons.jsx"
-import { Container } from '@material-ui/core';
+
+import React, { useState, useContext, useEffect } from 'react'
+
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+
+} from "react-router-dom";
+
+// Pages 
+import Home from "./pages/Home.jsx"
+import Categories from './pages/Categories.jsx';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import CreatePost from "./pages/CreatePost.jsx"
+import EditPost from "./pages/EditPost.jsx"
+import EditProfile from "./pages/EditProfile.jsx"
+import Profile from "./pages/Profile.jsx"
+import Post from './pages/Post.jsx';
+
+// Components 
+import Navbar from './components/Navbar/Navbar.jsx';
+import Footer from './components/Footer/Footer.jsx';
+
+import Browser from "./functions/Browser"
+import { AuthContext } from "./context/AuthContext.js"
+import { updateLoginApiContext, autoLoginApiContext } from "./ApiContext"
+
+
+const updateLogin = async (dispatch) => {
+    await updateLoginApiContext(dispatch)
+    setInterval(async () => {
+        await updateLoginApiContext(dispatch)
+    }, 20000)
+}
+
+
 
 function App() {
+
+    const context = useContext(AuthContext)
+    const [isLogin, setIsLogin] = useState(true)
+
+    useEffect(async () => {
+        await autoLoginApiContext(context.dispatch)
+        await updateLogin(context.dispatch)
+
+
+        const loginId = Browser.getCookie("loginId")
+        const userId = Browser.getCookie("userId")
+
+        console.log(loginId, userId)
+
+    }, []);
+
+    const handleRedirect = () => {
+
+        const loginId = Browser.getCookie("loginId")
+        const userId = Browser.getCookie("userId")
+
+        if (userId && loginId) {
+            return null
+        } else {
+            return <Redirect to="/login" />
+        }
+    }
+
+
     return (
-        <div className="App">
-            <header className="App-header">
-            </header>
-            {/* <Container> */}
+        <Router>
+            <Navbar isUserLogin={true} />
+            <Switch>
+                <div className="mt-5 container">
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route exact path="/categories">
+                        <Categories />
+                    </Route>
+                    <Route exact path="/login">
+                        <Login />
+                    </Route>
+                    <Route exact path="/register">
+                        <Register />
+                    </Route>
+                    <Route exact path="/profile/:username">
+                        <Profile />
+                    </Route>
+                    <Route exact path="/p/:postId">
+                        <Post />
+                    </Route>
+                    <Route path="/create">
+                        {
+                            context.user?._id ?
+                                <Route exact path="/create/post">
+                                    <CreatePost />
+                                </Route>
+                                : handleRedirect()
+                        }
+                    </Route>
+                    <Route path="/edit">
+                        {
+                            context.user?._id ?
+                            <React.Fragment>
 
-            <Btn>click me</Btn>
-            <Btn>click me</Btn>
-            <Btn>click me</Btn>
-            {/* </Container> */}
+                                <Route exact path="/edit/post/:postId">
+                                    <EditPost />
+                                </Route>
+                                <Route exact path="/edit/profile/:userId">
+                                    <EditProfile />
+                                </Route>
+                            </React.Fragment>
+                                : handleRedirect()
+                        }
+                    </Route>
+                    
 
-        </div>
-    );
+                </div>
+            </Switch>
+            <Footer />
+        </Router>
+    )
+
 }
+
+
+
 
 export default App;

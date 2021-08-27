@@ -1,0 +1,148 @@
+::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #82888d;
+    border: 3px solid #f8f9fa;
+    border-radius: 10px;
+    height: 20%;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #707880;
+}
+
+body {
+    font-family: "Cairo", sans-serif !important;
+    direction: rtl;
+}
+body * {
+    direction: rtl;
+}
+
+.btn-shadow {
+    border: unset !important;
+}
+
+.btn-shadow:hover {
+    box-shadow: rgb(70 83 93) 2px 4px 0px 0px, rgb(0 0 0 / 12%) 0px 3px 14px 2px,
+        rgb(0 0 0 / 20%) 0px 5px 5px -3px !important;
+}
+
+a {
+    text-decoration: unset;
+}
+
+.profileImg-sm {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.profileImg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.profileImg-lg {
+    width: 3rem;
+    height: 3rem;
+}
+
+.profileImg-lg,
+.profileImg,
+.profileImg-sm {
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: lightgray;
+    background-image: url("assets/data/default/profile.jpg");
+}
+
+.profileDiv-coverImg {
+    border-radius: 8px;
+    height: 420px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: lightgray;
+    background-image: url("assets/data/default/cover.jpg");
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+.profileDiv-profileImg {
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: lightgray;
+    background-image: url("assets/data/default/profile.jpg");
+    width: 164px;
+    height: 164px;
+    z-index: 100;
+    margin: 0 0 -64px 50px;
+}
+
+@media (max-width: 768px) {
+    .profileDiv-profileImg {
+        width: 144px;
+        height: 144px;
+        margin: 0 0 -64px 50px;
+    }
+}
+
+@media (max-width: 576px) {
+    .profileDiv-profileImg {
+        width: 115px;
+        height: 115px;
+        margin: 0 0 -64px 30px;
+    }
+}
+
+.line {
+    background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+    height: 3px;
+    width: 100%;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.modal-content {
+    border: unset;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.63);
+}
+
+
+.previewPostCoverImg {
+    height: 312px;
+    width: 100%;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #eeeeee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* 
+input {
+    border: none !important;
+    box-shadow: none !important;
+} */
