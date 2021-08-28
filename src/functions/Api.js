@@ -234,6 +234,12 @@ const fetchPost = async (id) => {
     return res
 }
 
+const searchPosts = async (labels, category) => {
+    const res = await axios.get(`${proxy}/posts/search/all/?labels=${labels}&category=${category}`)
+    res.data = addPathToMedia(res.data, "post")
+    return res
+}
+
 
 const fetchPostByCategory = async (category) => {
     const res = await axios.get(`${proxy}/posts/category/${category}`)
@@ -427,6 +433,7 @@ export default {
     fetchPostByRelatedHash,
 
     fetchPost,
+    searchPosts,
     fetchLastPosts,
     fetchMostLikePosts,
     fetchMostViewPosts,
