@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Search({ onSearch }) {
+export default function SearchBox({ onSearch }) {
     const classes = useStyles()
     const [value, setValue] = useState("")
     const [relClass, seRelClass] = useState("")

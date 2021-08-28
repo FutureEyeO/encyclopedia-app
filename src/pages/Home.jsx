@@ -15,7 +15,7 @@ import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import WatchLaterRoundedIcon from '@material-ui/icons/WatchLaterRounded';
 
 import Flame from "../components/icons/Flame"
-import Search from "../components/elements/Search"
+import SearchBox from "../components/elements/SearchBox"
 import ListItemCollapse from '../components/elements/ListItemCollapse';
 
 import Api from '../functions/Api';
@@ -105,7 +105,7 @@ export default function Home() {
             </header>
             <div className="mt-5 mb-5">
 
-                <Search onSearch={handleSerch} />
+                <SearchBox onSearch={handleSerch} />
             </div>
             <div className="" style={{ marginTop: "8rem" }}>
                 <div className="w-100">

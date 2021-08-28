@@ -19,6 +19,7 @@ import EditPost from "./pages/EditPost.jsx"
 import EditProfile from "./pages/EditProfile.jsx"
 import Profile from "./pages/Profile.jsx"
 import Post from './pages/Post.jsx';
+import Search from './components/elements/SearchBox.jsx';
 
 // Components 
 import Navbar from './components/Navbar/Navbar.jsx';
@@ -116,6 +117,14 @@ function App() {
                         }
                     </Route>
                     
+                    <Route path="/search">
+                            <React.Fragment>
+                                <Route exact path="/search">
+                                    <Search />
+                                </Route>
+                            </React.Fragment>
+            
+                    </Route>
 
                 </div>
             </Switch>
