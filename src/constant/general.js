@@ -1,6 +1,7 @@
 const constants = {
 
     proxy: "http://localhost:8800/api",
+    statisticsApi: "http://localhost:8800/statistics",
     socket: "http://localhost:8900/api",
     UPLOAD_USER_URL: `http://localhost:8800/api/public/user`,
     UPLOAD_POST_URL: `http://localhost:8800/api/public/post`,

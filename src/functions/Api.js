@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid"
 
 import constants from "../constant/general";
 
-const { proxy, UPLOAD_POST_URL, UPLOAD_USER_URL, ALLOWED_IMG, ALLOWED_IMG_SIZE } = constants
+const { proxy, statisticsApi, UPLOAD_POST_URL, UPLOAD_USER_URL, ALLOWED_IMG, ALLOWED_IMG_SIZE } = constants
 // const proxy = "http:/localhost:8800/api"
 
 // const UPLOAD_USER_URL = process.env.REACT_APP_UPLOAD_USER_URL
@@ -382,16 +382,16 @@ const getConversationMessages = async (conversationId, currentUser, secondUser) 
 }
 
 
-// ! STATISTIC :
+// ! STATISTICS :
 
 const postStatistic = async (ip, userId, url, timeTaken, ipInfo) => {
-    const res = await axios.post(`${proxy}/statistics/`, { ip, userId, url, timeTaken, ipInfo, visitCount: 1 })
+    const res = await axios.post(`${statisticsApi}/visits/`, { ip, userId, url, timeTaken, ipInfo, visitCount: 1 })
     return res
 }
 
 
 const getVisitCountStatistic = async (url) => {
-    const res = await axios.get(`${proxy}/statistics/visit_count`, { params: { url } })
+    const res = await axios.get(`${statisticsApi}/visits/visit_count`, { params: { url } })
     return res
 }
 
