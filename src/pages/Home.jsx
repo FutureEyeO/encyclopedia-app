@@ -19,6 +19,7 @@ import Search from "../components/elements/Search"
 import ListItemCollapse from '../components/elements/ListItemCollapse';
 
 import Api from '../functions/Api';
+import LoginModle from '../components/elements/LoginModle';
 
 const styles = {
     header: {
@@ -144,6 +145,10 @@ export default function Home() {
 
                 </div>
             </div>
+
+
+            <LoginModle/>
+            
         </React.Fragment >
     )
 }

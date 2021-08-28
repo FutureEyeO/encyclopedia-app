@@ -23,6 +23,8 @@ import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import { AuthContext } from '../context/AuthContext';
 import Api from '../functions/Api';
 
+import LoginModle from '../components/elements/LoginModle';
+
 import { format } from "timeago.js"
 
 const useStyles = makeStyles({
@@ -75,6 +77,8 @@ export default function Post({ }) {
     const [isLike, setIsLike] = useState(false)
     const [post, setPost] = useState({ })
 
+    const [modleId, setModleId] = useState(v4())
+
     const likeButton = useRef()
     const commentButton = useRef()
     const closeOptionsModel = useRef()
@@ -102,7 +106,7 @@ export default function Post({ }) {
         if (!context.user?._id) {
             const i = likeButton.current.getAttribute("data-bs-target")
             likeButton.current.setAttribute("data-bs-toggle", "modal")
-            likeButton.current.setAttribute("data-bs-target", "#staticBackdrop")
+            likeButton.current.setAttribute("data-bs-target", "#loginBackdrop")
             !i && likeButton.current.click()
             return;
         }
@@ -119,7 +123,7 @@ export default function Post({ }) {
     }
 
     const handleCpoyPostUrl = () => {
-        window.document.querySelector("#closeOptionsModel").click()
+        window.document.querySelector(`#closeOptionsModel${modleId}`).click()
         navigator.permissions.query({ name: "clipboard-write" }).then(result => {
             if (result.state == "granted" || result.state == "prompt") {
                 window.navigator.clipboard.writeText(`${window.location.host}/p/${post._id}`).then(function () {
@@ -139,7 +143,7 @@ export default function Post({ }) {
             if (answer) {
                 await Api.deletePost(post._id, context.user._id).then(res => {
                     console.log(res.data)
-                    window.document.querySelector("#closeOptionsModel").click()
+                    window.document.querySelector(`#closeOptionsModel${modleId}`).click()
                     history.push(`/profile/${context.user.username}`)
                 })
             }
@@ -197,7 +201,7 @@ export default function Post({ }) {
                             </div>
                             <div className="float-end d-flex">
 
-                                <Button className="indigo lighten-4 rounded-circle p-1 m-2" style={{ color: "#5c6bc0 ", fontSize: "14px", minWidth: "auto", }} data-bs-toggle="modal" data-bs-target="#optionsBackdrop">
+                                <Button className="indigo lighten-4 rounded-circle p-1 m-2" style={{ color: "#5c6bc0 ", fontSize: "14px", minWidth: "auto", }} data-bs-toggle="modal" data-bs-target={`#optionsBackdrop${modleId}`}>
                                     <MoreHorizRoundedIcon />
                                 </Button>
 
@@ -220,14 +224,14 @@ export default function Post({ }) {
             </div>
 
 
-            <div className={`modal fade`} id="optionsBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="optionsBackdropLabel" aria-hidden="false">
+            <div className={`modal fade`} id={`optionsBackdrop${modleId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby={`optionsBackdropLabel${modleId}`} aria-hidden="false">
                 <div className={`modal-dialog modal-dialog-centered `}>
                     <div className={`modal-content`}>
                         <div class="modal-header">
-                            <h5 class="modal-title" id="optionsBackdropLabel">
+                            <h5 class="modal-title" id={`optionsBackdropLabel${modleId}`}>
                                 {post.title}
                             </h5>
-                            <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="Close" id="closeOptionsModel"></button>
+                            <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="Close" id={`closeOptionsModel${modleId}`}></button>
                         </div>
                         <div class="modal-body">
                             <p>
@@ -275,38 +279,8 @@ export default function Post({ }) {
                 </div>
             </div>
 
-            <div className={`modal fade`} id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
-                <div className={`modal-dialog modal-dialog-centered `}>
-                    <div className={`modal-content`}>
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">
-                                تسجيل الدخول
-                            </h5>
-                            <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="Close" ref={closeOptionsModel}></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>
-                                لا تستطيع التفاعل مع محتوى هذه الموسوعة , يجب عليك تسجيل الدخول لنظمن سلامة المعلومات و تجنب التفاعل العشوائي
-                            </p>
+            <LoginModle />
 
-                            <Button className="d-block w-100 rounded-pill m-2" style={{ fontFamily: "inherit" }} variant="contained" color="primary">
-                                <Link to={`/login`} target="_blank" className="d-block" style={{ color: "inherit" }}>
-                                    دخول <LockOpenRoundedIcon />
-                                </Link>
-                            </Button>
-                            <Button className="d-block w-100 rounded-pill m-2" style={{ fontFamily: "inherit" }} variant="contained" color="secondary">
-                                <Link to={`/register`} target="_blank" className="d-block" style={{ color: "inherit" }} >
-                                    تسجيل الدخول <VpnKeyRoundedIcon />
-                                </Link>
-                            </Button>
-                        </div>
-                        <div class="modal-footer">
-                            {/* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> */}
-                            {/* <button type="button" class="btn btn-primary">Understood</button> */}
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </React.Fragment>
 

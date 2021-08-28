@@ -12,6 +12,7 @@ import LinkRoundedIcon from '@material-ui/icons/LinkRounded';
 import QueryBuilderRoundedIcon from '@material-ui/icons/QueryBuilderRounded';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded';
 
 import PostCard from '../components/elements/PostCard';
 
@@ -45,7 +46,7 @@ export default function Profile() {
 
 
     const [isFollowing, setIsFollowing] = useState(false)
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({ })
     // const [posts, setPosts] = useState([])
 
     const [followers, setFollowers] = useState(0)
@@ -95,7 +96,7 @@ export default function Profile() {
 
     return (
         <React.Fragment>
-            <header className={`${classes.header}`} style={{}}>
+            <header className={`${classes.header}`} style={{ }}>
                 <div className={`profileDiv-coverImg ${``}`} style={{ backgroundImage: `url(${user.coverImg})` }}>
                     <div className={`profileDiv-profileImg ${``}`} style={{ backgroundImage: `url(${user.profileImg})` }}>
 
@@ -130,12 +131,20 @@ export default function Profile() {
                                 <a href={user.website} target="_blank">{user.website}</a>
                             </span>
                         </div>
-                        <div className={`mb-2`} style={{ direction: "ltr" }}>
-                            <Button style={{ fontFamily: "inherit", borderRadius: "10px" }} variant="contained" color="secondary"> 
-                                <Link to={`/edit/profile/${user._id}`} style={{ color: "inherit" }}>
-                                تعديل الملف الشخصي <EditRoundedIcon style={{ fontSize: "18px" }}/>
+                        <div className={`mb-3`}>
+                            <Button style={{ fontFamily: "inherit", borderRadius: "10px" }} variant="contained" color="primary">
+                                <Link to={`/create/post`} style={{ color: "inherit" }}>
+                                    اضف منشورة  <PostAddRoundedIcon style={{ fontSize: "18px" }} />
                                 </Link>
                             </Button>
+                        </div>
+                        <div className={`mb-3`} style={{ direction: "ltr" }}>
+                            <Button style={{ fontFamily: "inherit", borderRadius: "10px" }} variant="contained" color="secondary">
+                                <Link to={`/edit/profile/${user._id}`} style={{ color: "inherit" }}>
+                                    تعديل الملف الشخصي <EditRoundedIcon style={{ fontSize: "18px" }} />
+                                </Link>
+                            </Button>
+
                         </div>
                     </div>
                 </div>
@@ -147,7 +156,7 @@ export default function Profile() {
 
                         {
                             user.posts?.map(postId => {
-                                return <PostCard id={v4()} postId={postId}/>
+                                return <PostCard id={v4()} postId={postId} />
                             })
                         }
 
