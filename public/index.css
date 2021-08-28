@@ -141,6 +141,9 @@ a {
 }
 
 
+label {
+    font-family: "inherit" !important
+}
 /* 
 input {
     border: none !important;

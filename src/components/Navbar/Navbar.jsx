@@ -92,6 +92,7 @@ function Navbar() {
     const history = useHistory()
     const [path, setPath] = useState(window.location.pathname)
 
+
     const [user, setUser] = useState({})
     // const [timeTaken, setTimeTaken] = useState(0)
     const [isUserLogin, setIsUserLogin] = useState(false)
@@ -104,11 +105,12 @@ function Navbar() {
 
 
     useEffect(async () => {
-        timeTaken = 0
-        let ip = (await (await fetch("https://api.ipify.org/?format=json")).json()).ip
-        let ipInfo = await Api.getIpInfo(ip)
-        Api.postStatistic(ip, context.user?._id, path, timeTaken, ipInfo.data)
-    }, [])
+            timeTaken = 0
+            let ip = (await (await fetch("https://api.ipify.org/?format=json")).json()).ip
+            let ipInfo = await Api.getIpInfo(ip)
+            Api.postStatistic(ip, context.user?._id, path, timeTaken, ipInfo.data)
+            Api.postVisitsLogStatistic(path, `${new Date().getDay()}-${new Date().getMonth()}-${new Date().getFullYear()}`, ip, context.user?._id, timeTaken)
+    }, [context.user?._id])
 
 
     useEffect(() => {
@@ -127,6 +129,7 @@ function Navbar() {
                 let ipInfo = await Api.getIpInfo(ip)
                 console.log(timeTaken)
                 Api.postStatistic(ip, context.user?._id, path, timeTaken, ipInfo.data)
+                Api.postVisitsLogStatistic(path, `${new Date().getDay()}-${new Date().getMonth()}-${new Date().getFullYear()}`, ip, context.user?._id, timeTaken)
                 timeTaken = 0
             }
         })

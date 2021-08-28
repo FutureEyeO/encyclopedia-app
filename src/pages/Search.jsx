@@ -55,7 +55,6 @@ export default function Search() {
                     return <PostCard id={v4()} postId={postId} />
                 })
             }
-
             </div>
         </React.Fragment>
     )

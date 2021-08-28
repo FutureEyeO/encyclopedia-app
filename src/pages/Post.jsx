@@ -2,7 +2,7 @@ import React, { Component, useContext, useState, useEffect, useRef } from 'react
 
 import { Link, useParams, useHistory } from "react-router-dom"
 
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, TextField } from '@material-ui/core';
 
 import Button from '@material-ui/core/Button';
 
@@ -48,19 +48,41 @@ const useStyles = makeStyles({
     postCardBInfo: {
         fontSize: "14px",
         padding: "4px 8px"
+    },
+    commentInput: {
+        fontFamily: "inherit",
+        "*": {
+            fontFamily: "inherit"
+        }
     }
 })
 
 
 function RelatedHash({ text }) {
     return (
-        <div className={`ms-2`}>
+        <div className={`m-2`}>
 
-            <Button className="p-0 rounded-pill" style={{ minWidth: "auto" }}>
-                <Link to={`/tag/${text}`} className={`blue lighten-4 rounded-pill`} style={{ fontSize: "14px", padding: "4px 10px", }} >
+            <Button className="p-0 rounded-pill" style={{ minWidth: "auto", fontFamily: "inherit" }} >
+                <Link to={`/search/?labels=${text}`} className={`blue lighten-4 rounded-pill`} style={{ fontSize: "14px", padding: "4px 10px", }} >
                     {text} <LabelImportantRoundedIcon style={{ fontSize: "1.2rem" }} />
                 </Link>
             </Button>
+        </div>
+    )
+}
+
+
+
+function Comment({ comment }) {
+    const [_comment, setComment] = useState([])
+
+    useEffect(() => {
+        setComment(comment)
+    }, [comment])
+
+    return (
+        <div className={`m-2`}>
+            {comment.text}
         </div>
     )
 }
@@ -81,6 +103,8 @@ export default function Post({ }) {
 
     const likeButton = useRef()
     const commentButton = useRef()
+    const commentForm = useRef()
+    const commentText = useRef()
     const closeOptionsModel = useRef()
 
     const fetchPost = () => {
@@ -128,7 +152,7 @@ export default function Post({ }) {
             if (result.state == "granted" || result.state == "prompt") {
                 window.navigator.clipboard.writeText(`${window.location.host}/p/${post._id}`).then(function () {
                     /* clipboard successfully set */
-                    
+
                 }, function () {
                     /* clipboard write failed */
                 });
@@ -150,6 +174,15 @@ export default function Post({ }) {
         }
     }
 
+    const handlePostComment = async (e) => {
+        e.preventDefault();
+        let comment = commentText.current.value
+        Api.commentPost(post._id, context.user._id, comment).then(res => {
+            console.log(res.data)
+            fetchPost()
+        })
+    }
+
 
     return (
         <React.Fragment>
@@ -157,7 +190,7 @@ export default function Post({ }) {
             <div className={`grey lighten-3 d-block m-3 ${classes.postCard}`}>
                 <div className={`p-3 d-block position-relative`} style={{ height: "100%" }}>
                     <Button className="p-0 rounded-pill float-start" style={{ minWidth: "auto", fontFamily: "inherit" }}>
-                        <Link tp={`/category/${post.category}`} className={`blue lighten-4 rounded-pill`} style={{ padding: "5px 10px", fontFamily: "inherit" }} >
+                        <Link to={`/search/?category=${post.category}`} className={`blue lighten-4 rounded-pill`} style={{ padding: "5px 10px", fontFamily: "inherit" }} >
                             {post.category}
                         </Link>
                     </Button>
@@ -216,6 +249,20 @@ export default function Post({ }) {
                             {
                                 post.relatedHash?.map(hash => {
                                     return <RelatedHash id={v4()} text={hash} />
+                                })
+                            }
+                        </div>
+                        <form className="p-2 mb-4 d-flex" onSubmit={handlePostComment}>
+
+                            <Button type="submit" style={{ fontFamily: "inherit", }} variant="contained" color="primary">نشر</Button>
+                            <TextField type="text" className={`flex-grow-1 me-2 ${classes.commentInput}`} id="comment-basic" inputRef={commentText} label="اضف تعليقك" variant="filled" />
+
+                        </form>
+                        <div>
+                            {
+                                post.comments?.map(c => {
+
+                                    return <Comment comment={c} />
                                 })
                             }
                         </div>

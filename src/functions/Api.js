@@ -224,6 +224,15 @@ const likePost = async (id, userId) => {
     return await axios.put(`${proxy}/posts/${id}/like`, { userId: userId })
 }
 
+
+const commentPost = async (id, userId, text) => {
+    return await axios.put(`${proxy}/posts/${id}/comment`, { userId, text })
+}
+
+const deleteCommentPost = async (id, userId, commentId) => {
+    return await axios.delete(`${proxy}/posts/${id}/comment`, { userId, commentId })
+}
+
 const addViewsCountPost = async (id) => {
     return await axios.put(`${proxy}/posts/${id}/add_viewsCount`)
 }
@@ -396,6 +405,16 @@ const postStatistic = async (ip, userId, url, timeTaken, ipInfo) => {
 }
 
 
+const postVisitsLogStatistic = async (url, date, ip, userId, timeTaken) => {
+    ip = ip.split(".").map((v, i) => {
+        return v
+    })
+    console.log({ url, date, visitors: { [ip]: { userId, timeTaken } } })
+    const res = await axios.post(`${statisticsApi}/visits/log`, { url, date, visitors: { [ip]: { userId, timeTaken } } })
+    return res
+}
+
+
 const getVisitCountStatistic = async (url) => {
     const res = await axios.get(`${statisticsApi}/visits/visit_count`, { params: { url } })
     return res
@@ -428,6 +447,8 @@ export default {
     updatePostImg,
     deletePost,
     likePost,
+    commentPost,
+    deleteCommentPost,
     addViewsCountPost,
     fetchPostByCategory,
     fetchPostByRelatedHash,
@@ -457,6 +478,7 @@ export default {
     getConversationMessages,
 
     postStatistic,
+    postVisitsLogStatistic,
     getVisitCountStatistic,
     getIpInfo,
 }

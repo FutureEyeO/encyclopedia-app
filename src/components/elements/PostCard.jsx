@@ -117,10 +117,10 @@ export default function PostCard({ postId }) {
                 <div className={`d-block position-relative`} style={{ height: "100%" }}>
                     <div className={`w-100 ${classes.postCardHeader}`} style={{ backgroundImage: `url(${post.coverImg})` }}>
                         <Link to={`/p/${post._id}`} className={`w-100 grey lighten-2 position-absolute text-center ${classes.postCardLink}`}>
-                            <Button color="primary" className="w-100 h-100 p-3" style={{ borderRadius: "12px 12px 0 0" }}>{post.title}</Button>
+                            <Button color="primary" className="w-100 h-100 p-3" style={{ borderRadius: "12px 12px 0 0", fontFamily: "inherit"}}>{post.title}</Button>
                         </Link>
                     </div>
-                    <div className="p-2 mt-2 d-flex flex-column justify-content-between" style={{ height: "150px" }}>
+                    <div className="p-2 mt-2 d-flex flex-column justify-content-between" style={{ minHeight: "150px" }}>
                         <p className="">
                             {post.desc}
                         </p>

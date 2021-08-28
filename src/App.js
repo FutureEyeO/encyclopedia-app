@@ -73,7 +73,7 @@ function App() {
         <Router>
             <Navbar isUserLogin={true} />
             <Switch>
-                <div className="mt-5 container h-100">
+                <div className="mt-5 container-full p-2 h-100">
                     <Route exact path="/">
                         <Home />
                     </Route>
