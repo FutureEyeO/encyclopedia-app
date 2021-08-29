@@ -5,9 +5,10 @@ import { Link, useParams, useHistory } from "react-router-dom"
 import { makeStyles, TextField } from '@material-ui/core';
 
 import Button from '@material-ui/core/Button';
+import { List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
+import { Zoom, Slide } from '@material-ui/core';
 
 import { v4 } from 'uuid';
-
 
 import LabelImportantRoundedIcon from '@material-ui/icons/LabelImportantRounded';
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
@@ -18,7 +19,7 @@ import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import WatchLaterRoundedIcon from '@material-ui/icons/WatchLaterRounded';
 import VpnKeyRoundedIcon from '@material-ui/icons/VpnKeyRounded';
 import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
-
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 
 import { AuthContext } from '../context/AuthContext';
 import Api from '../functions/Api';
@@ -54,6 +55,11 @@ const useStyles = makeStyles({
         "*": {
             fontFamily: "inherit"
         }
+    },
+    commentBox: {
+        padding: "10px",
+        border: "2px solid #dadada",
+        borderRadius: "10px"
     }
 })
 
@@ -74,16 +80,64 @@ function RelatedHash({ text }) {
 
 
 function Comment({ comment }) {
+    const [user, setUser] = useState({ })
+    const [open, setOpen] = useState(false)
     const [_comment, setComment] = useState([])
+    const classes = useStyles()
 
     useEffect(() => {
         setComment(comment)
+        Api.fetchUser(comment.userId).then(res => {
+            setUser(res.data)
+        })
     }, [comment])
 
+    const handleOpen = () => {
+        setOpen(!open)
+    }
+
     return (
-        <div className={`m-2`}>
-            {comment.text}
-        </div>
+        <React.Fragment>
+            <div className={`m-2 ${classes.commentBox}`}>
+                <div className="d-flex justify-content-between mb-1">
+
+                    <div>
+                        <Link to={`/profile/${user.username}`} style={{ color: "inherit" }}>
+                            <Button color="defualt">
+                                <div className="profileImg-sm" style={{ backgroundImage: `url(${user.profileImg})` }}></div>
+                                <small>{user.username}</small>
+                            </Button>
+                        </Link>
+                    </div>
+                    <div>
+                        <small>
+                            {
+                                format(new Date(comment.time))
+                            }
+                        </small>
+                        <Button className="indigo lighten-4 rounded-circle p-1 m-2" style={{ color: "#5c6bc0", fontSize: "14px", minWidth: "auto", }} onClick={handleOpen}>
+                            <MoreHorizRoundedIcon />
+                            <Slide direction="down" in={open} mountOnEnter unmountOnExit>
+                                <List aria-label="main mailbox folders">
+                                    <ListItem className="ListItem1 text-danger" button>
+                                        <ListItemIcon>
+                                            <DeleteRoundedIcon style={{ fontSize: "18px" }} />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Delete" />
+                                    </ListItem>
+                                </List>
+                                <Divider />
+                            </Slide>
+                        </Button>
+                    </div>
+
+
+                </div>
+                {comment.text}
+            </div>
+
+        </React.Fragment>
+
     )
 }
 
@@ -176,11 +230,23 @@ export default function Post({ }) {
 
     const handlePostComment = async (e) => {
         e.preventDefault();
-        let comment = commentText.current.value
-        Api.commentPost(post._id, context.user._id, comment).then(res => {
-            console.log(res.data)
-            fetchPost()
-        })
+
+        if (!context.user?._id) {
+            const i = likeButton.current.getAttribute("data-bs-target")
+            likeButton.current.setAttribute("data-bs-toggle", "modal")
+            likeButton.current.setAttribute("data-bs-target", "#loginBackdrop")
+            !i && likeButton.current.click()
+            return;
+        }
+
+        if (context.user._id && post._id) {
+
+            let comment = commentText.current.value
+            Api.commentPost(post._id, context.user._id, comment).then(res => {
+                console.log(res.data)
+                fetchPost()
+            })
+        }
     }
 
 

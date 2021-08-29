@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 // import "materialize-css"
-
+import dotenv from "dotenv"
 import App from './App';
 
 import { AuthContextProvider, AuthContext } from './context/AuthContext';
 import { updateLoginApiContext } from "./ApiContext"
 
+dotenv.config()
 
 ReactDOM.render(
     <React.StrictMode>
