@@ -9,6 +9,8 @@ import {
 
 } from "react-router-dom";
 
+
+
 // Pages 
 import Home from "./pages/Home.jsx"
 import Categories from './pages/Categories.jsx';
@@ -29,6 +31,10 @@ import Browser from "./functions/Browser"
 import { AuthContext } from "./context/AuthContext.js"
 import { updateLoginApiContext, autoLoginApiContext } from "./ApiContext"
 
+// import SApi from "./server/Api"
+
+// const SApi = require("./server/Api")
+// const Api = require("./server/Api")
 
 const updateLogin = async (dispatch) => {
     await updateLoginApiContext(dispatch)
@@ -53,6 +59,10 @@ function App() {
         const userId = Browser.getCookie("userId")
 
         console.log(loginId, userId)
+
+        // await Api.Users().fetch_all_users().then(res => {
+        //     console.log(res)
+        // })
 
     }, []);
 

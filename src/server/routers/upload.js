@@ -38,6 +38,7 @@ const storagePostImage = multer.diskStorage({
 
 const uploadPostImage = multer({ storage: storagePostImage });
 
+uploadPostImage.single(fieldName)
 router.post("/post/:userId/:filename", uploadPostImage.single("file"), (req, res) => {
     try {
         res.status(200).json("file uploaded successfully")

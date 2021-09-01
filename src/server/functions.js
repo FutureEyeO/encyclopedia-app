@@ -1,12 +1,16 @@
-import mongoose from "mongoose"
+const mongoose = require("mongoose")
+const ApdServer = require("../admin-server/Apd")
 
-const checkAdmin = async (_id) => {
+const Adp = new ApdServer()
+
+const checkAdmin = async ({ userId }) => {
     try {
-        const admin = await axios.get(`${constants.proxy}/admin/${_id}`)
-        if (admin.data == null)
+        const admin = await Adp.Admin().fetch_admin(userId)
+
+        if (!admin.data)
             return false
 
-        if (admin.data.userId == _id) {
+        if (admin.data.userId == userId) {
             return true
         } else {
             return false
@@ -17,12 +21,12 @@ const checkAdmin = async (_id) => {
 }
 
 
-const checkAuthor = async (_id) => {
-    const author = await axios.get(`${constants.proxy}/author/${_id}`)
-    if (author.data == null)
+const checkAuthor = async (userId) => {
+    const author = await Adp.Admin().fetch_author(userId) 
+    if (!author.data)
         return false
 
-    if (author.data.userId == _id) {
+    if (author.data.userId == userId) {
         return true
     } else {
         return false
@@ -34,7 +38,7 @@ const checkValidate = async (_id) => {
         isAdmin: await checkAdmin(_id),
         isAuthor: await checkAuthor(_id)
     }
-} 
+}
 
 const returnUserData = async (data) => {
     try {
@@ -42,16 +46,22 @@ const returnUserData = async (data) => {
             const { password, login_password, updatedAt, __v, ...userData } = data
             return { ...userData, ...await checkValidate(userData._id) }
         } else
-            return {}
+            return { }
 
     } catch (err) {
-        return {}
+        return { }
     }
 }
 
-export default{
+const resData = (data, message = null, status = 200, error = false) => {
+    data = JSON.parse(data)
+    return { data, message, status, error }
+}
+
+module.exports = {
     checkAdmin,
     checkAuthor,
     checkValidate,
-    returnUserData
+    returnUserData,
+    resData
 }

@@ -60,7 +60,6 @@ router.get("/visit_count", async (req, res) => {
 
 // visits log 
 
-
 router.post("/log", async (req, res) => {
     try {
 

@@ -1,7 +1,7 @@
-import mongoose from "mongoose"
-import db from "../connections/api.db"
+const mongoose = require("mongoose")
+const db = require("../connections/api.db")
 
-const loginSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String, 
         min: 3,
@@ -29,6 +29,11 @@ const loginSchema = new mongoose.Schema({
         type: String,
         defualt: ""
     },
+    password: {
+        type: String,
+        min: 6,
+        required: true,
+    },
     profileImg: {
         type: String,
         default: ""
@@ -45,7 +50,14 @@ const loginSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-
+    // isAdmin: {
+    //     type: Boolean,
+    //     default: false,
+    // },
+    // isAuthor: {
+    //     type: Boolean,
+    //     defualt: false,
+    // },
     desc: {
         type: String,
         max: 50
@@ -57,45 +69,7 @@ const loginSchema = new mongoose.Schema({
     posts_likes: {
         type: Array,
         default: []
-    },
-    
-    user_agent: {
-        type: String,
-        require: true,
-        min: 1
-    },
-
-    user_id: {
-        type: String,
-        require: true,
-        min: 10,
-        unique: true
-    },
-
-    login_time: {
-        type: Number,
-        require: true,
-    },
-
-    login_count: {
-        type: Number,
-        default: 0
-    },
-
-    login_id: {
-        type: String,
-        require: true,
-        min: 10,
-        unique: true
-    }, 
-
-    login_password: {
-        type: String,
-        require: true,
-        min: 10,
-        unique: true
     }
-
 }, { timestamps: true })
 
-module.exports = db.model("Login", loginSchema)
+module.exports = db.model("User", userSchema)

@@ -1,19 +1,20 @@
 const mongoose = require("mongoose")
+const db = require("../connections/admin.db")
 
-const adminSchema = new mongoose.Schema({
+const authorSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: true,
         unique: true,
     },
-    isAdmin: {
+    isAuthor: {
         type: Boolean,
         required: true
     },
-    controlOptions: {
+    authorOptions: {
         type: Object,
         defualt: {}
-    },
+    }
 }, {timestamps: true})
 
-module.exports = mongoose.model("Admin", adminSchema)
+module.exports = db.model("Author", authorSchema)

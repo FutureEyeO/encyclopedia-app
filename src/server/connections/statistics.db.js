@@ -5,4 +5,4 @@ const connection = mongoose.createConnection(process.env.REACT_APP_MONGO_STATIST
     else console.log("[+] - have conncted successfully ")
 })
 
-module.exports = connection
+export default connection

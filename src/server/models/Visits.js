@@ -1,5 +1,6 @@
-import mongoose from "mongoose"
-import db from "../connections/statistics.db"
+
+const mongoose = require("mongoose")
+const db = require("../connections/statistics.db")
 
 const visitSchema = mongoose.Schema({
     ip: {
@@ -30,7 +31,6 @@ const visitSchema = mongoose.Schema({
     }
 }, { timestamps: true })
 
-module.exports.Visits = db.model("Visits", visitSchema)
 
 
 const visitsLogSchema = mongoose.Schema({
@@ -62,6 +62,12 @@ const visitsLogSchema = mongoose.Schema({
     }
 }, { timestamps: true })
 
+const VisitsCollection = db.model("Visits", visitSchema)
+const VisitsLogCollection = db.model("VisitsLog", visitsLogSchema)
 
-module.exports.VisitsLog = db.model("VisitsLog", visitsLogSchema)
+module.exports = {
+    VisitsCollection,
+    VisitsLogCollection
+}
+
 

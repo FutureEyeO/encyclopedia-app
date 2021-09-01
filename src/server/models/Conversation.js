@@ -1,6 +1,5 @@
-import mongoose from "mongoose"
-
-import db from "../connections/api.db"
+const mongoose = require("mongoose")
+const db = require("../connections/api.db")
 
 const conversationSchema = new mongoose.Schema({
     members: {
