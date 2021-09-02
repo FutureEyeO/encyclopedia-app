@@ -8,6 +8,13 @@ import Api from '../functions/Api';
 import Browser from '../functions/Browser';
 import constants from "../constant/general"
 
+import InstagramIcon from '@material-ui/icons/Instagram';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import EmailRoundedIcon from '@material-ui/icons/EmailRounded';
+import YouTubeIcon from '@material-ui/icons/YouTube';
+
 import { AuthContext } from '../context/AuthContext';
 import { loginApiContext, updateLoginApiContext } from '../ApiContext';
 
@@ -50,6 +57,12 @@ export default function EditProfile() {
     const inputDescription = useRef()
     // const inputCoverImg = useRef()
     // const inputProfileImg = useRef()
+    const inputPublicEmail = useRef()
+    const inputGithub = useRef()
+    const inputTwitter = useRef()
+    const inputInstagram = useRef()
+    const inputYoutube = useRef()
+    const inputFacebook = useRef()
 
     const { ALLOWED_IMG, ALLOWED_IMG_SIZE } = constants
 
@@ -89,6 +102,17 @@ export default function EditProfile() {
             inputUsername.current.value = user.username
             inputName.current.value = user.name
             inputDescription.current.value = user.desc
+            if (user.publicEmail)
+                inputPublicEmail.current.value = user.publicEmail
+            console.log(user.socialMedia, user.socialMedia == {})
+            if (user.socialMedia != {}) {
+
+                inputGithub.current.value = user.socialMedia.github
+                inputTwitter.current.value = user.socialMedia.twitter
+                inputInstagram.current.value = user.socialMedia.instagram
+                inputYoutube.current.value = user.socialMedia.youtube
+                inputFacebook.current.value = user.socialMedia.facebook
+            }
         }
     }, [user, inputEmail.current])
 
@@ -108,8 +132,8 @@ export default function EditProfile() {
     }
 
     const handleSubmit = async (event) => {
-        setOpenBackdrop(true)
         event.preventDefault()
+        setOpenBackdrop(true)
         if (!context.isFetching) {
 
             // if (inputPassword.current.value != inputPasswordConfirmation.current.value) {
@@ -125,12 +149,36 @@ export default function EditProfile() {
             // const profileImg = inputProfileImg.current.files[0]
 
             const userData = {
-                email: inputEmail.current.value,
+                email: inputEmail.current.value.trim(),
                 ip: (await (await fetch("https://api.ipify.org/?format=json")).json()).ip,
-                username: inputUsername.current.value,
-                name: inputName.current.value,
-                desc: inputDescription.current.value,
+                username: inputUsername.current.value.trim(),
+                name: inputName.current.value.trim(),
+                desc: inputDescription.current.value.trim(),
             }
+            const socialMediaData = {
+
+                github: inputGithub.current.value.trim(),
+                twitter: inputTwitter.current.value.trim(),
+                instagram: inputInstagram.current.value.trim(),
+                youtube: inputYoutube.current.value.trim(),
+                facebook: inputFacebook.current.value.trim(),
+
+            }
+
+            if (socialMediaData.twitter != ""
+                || socialMediaData.instagram != ""
+                || socialMediaData.youtube != ""
+                || socialMediaData.facebook != ""
+                || socialMediaData.github != ""
+            ) {
+
+                userData["socialMedia"] = socialMediaData
+            }
+
+            if (inputPublicEmail.current.value.trim() != "") {
+                userData["publicEmail"] = inputPublicEmail.current.value.trim()
+            }
+
 
             try {
                 setIsFetching(true)
@@ -245,7 +293,7 @@ export default function EditProfile() {
                     openBackdrop ? setOpenBackdrop(false) : null
             }
             {
-                isFinishing ? <Redirect exact to={`/profile/${user.username}`} /> : null
+                isFinishing ? window.location.pathname = `/profile/${user.username}` : null
             }
             <div className="card text-center m-auto custom-card" style={{ maxWidth: "500px" }}>
 
@@ -279,6 +327,11 @@ export default function EditProfile() {
                             <input type="text" className="form-control" id="inputUsername" placeholder="Username" required ref={inputUsername} />
                         </div>
                         <div className="col-12">
+                            <label for="inputPublicEmail" className="form-label">Public Email <EmailRoundedIcon /></label>
+                            <input type="text" className="form-control" id="inputPublicEmail" placeholder="Public Email" ref={inputPublicEmail} />
+                        </div>
+
+                        <div className="col-12">
                             <label for="inputName" className="form-label">Your Name</label>
                             <input type="text" className="form-control" id="inputName" placeholder="You Name" ref={inputName} required />
                         </div>
@@ -309,26 +362,50 @@ export default function EditProfile() {
                             <textarea className="form-control" id="inputDescription" rows="3" ref={inputDescription}></textarea>
                         </div>
 
+                        <h2>Social Media</h2>
+                        <div className="col-12">
+                            <label for="inputGithub" className="form-label">Github <GitHubIcon /></label>
+                            <input type="text" className="form-control" id="inputGithub" placeholder="" ref={inputGithub} />
+                        </div>
+                        <div className="col-12">
+                            <label for="inputTwitter" className="form-label">Twitter <TwitterIcon /></label>
+                            <input type="text" className="form-control" id="inputTwitter" placeholder="" ref={inputTwitter} />
+                        </div>
+                        <div className="col-12">
+                            <label for="inputInstagram" className="form-label">Instagram <InstagramIcon /></label>
+                            <input type="text" className="form-control" id="inputInstagram" placeholder="" ref={inputInstagram} />
+                        </div>
+                        <div className="col-12">
+                            <label for="inputYoutube" className="form-label">Youtube <YouTubeIcon /></label>
+                            <input type="text" className="form-control" id="inputYoutube" placeholder="" ref={inputYoutube} />
+                        </div>
+                        <div className="col-12">
+                            <label for="inputFacebook" className="form-label">Facebook <FacebookIcon /></label>
+                            <input type="text" className="form-control" id="inputFacebook" placeholder="" ref={inputFacebook} />
+                        </div>
+
+
+
                         <div className="col-12">
                             <button type="submit" className="btn btn-primary">
                                 <div>
 
-                                    {isFetching ? "Loading" : "Register"}
+                                    {isFetching ? "Loading" : "Save"}
 
                                     {
                                         isFetching ?
-                                            <CircularProgress disableShrink color="white" size="20px" className="ms-1" thickness={5} style={{ marginBottom: "-5px" }} />
+                                            <CircularProgress disableShrink color="white" size="20px" className="me-1" thickness={5} style={{ marginBottom: "-5px" }} />
                                             :
-                                            <ExitToAppRoundedIcon className="ms-1" />
+                                            <ExitToAppRoundedIcon className="me-1" />
                                     }
                                 </div>
                             </button>
                         </div>
                     </form>
                 </div>
-                <div className="card-footer text-muted">
+                {/* <div className="card-footer text-muted"> */}
                     {/* I have an account - <a href="/login">login </a> */}
-                </div>
+                {/* </div> */}
             </div>
         </React.Fragment>
     )

@@ -65,8 +65,8 @@ export default function Register() {
     }
 
     const handleSubmit = async (event) => {
-        setOpenBackdrop(true)
         event.preventDefault()
+        setOpenBackdrop(true)
         console.log(!context.isFetching)
         if (!context.isFetching) {
 
@@ -279,9 +279,9 @@ export default function Register() {
 
                                     {
                                         isFetching ?
-                                            <CircularProgress disableShrink color="white" size="20px" className="ms-1" thickness={5} style={{ marginBottom: "-5px" }} />
+                                            <CircularProgress disableShrink color="white" size="20px" className="me-1" thickness={5} style={{ marginBottom: "-5px" }} />
                                             :
-                                            <ExitToAppRoundedIcon className="ms-1" />
+                                            <ExitToAppRoundedIcon className="me-1" />
                                     }
                                 </div>
                             </button>

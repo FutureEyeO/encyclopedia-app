@@ -259,13 +259,13 @@ export default function EditPost() {
 
                                     <div>
 
-                                        {isFetching ? "Loading" : "Send Post"}
+                                        {isFetching ? "Loading" : "Save"}
 
                                         {
                                             isFetching ?
-                                                <CircularProgress disableShrink color="white" size="20px" className="ms-1" thickness={5} style={{ marginBottom: "-5px" }} />
+                                                <CircularProgress disableShrink color="white" size="20px" className="me-1" thickness={5} style={{ marginBottom: "-5px" }} />
                                                 :
-                                                <SendRoundedIcon className="ms-1" />
+                                                <SendRoundedIcon className="me-1" />
                                         }
                                     </div>
                                 </button>

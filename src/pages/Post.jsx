@@ -7,6 +7,8 @@ import { makeStyles, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
 import { Zoom, Slide } from '@material-ui/core';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import { v4 } from 'uuid';
 
@@ -60,7 +62,15 @@ const useStyles = makeStyles({
         padding: "10px",
         border: "2px solid #dadada",
         borderRadius: "10px"
+    },
+    commentMenu: {
+        position: "absolute",
+        left: "10px",
+        borderRadius: "10px",
+        boxShadow: "0 0 70px 0 #6e6e6e",
+        backgroundColor: "rgba(240, 240, 240, 0.95) !important",
     }
+
 })
 
 
@@ -79,10 +89,12 @@ function RelatedHash({ text }) {
 
 
 
-function Comment({ comment }) {
+function Comment({ comment, postId }) {
     const [user, setUser] = useState({ })
     const [open, setOpen] = useState(false)
+    const [menuId, setMenuId] = useState(v4())
     const [_comment, setComment] = useState([])
+    const context = useContext(AuthContext)
     const classes = useStyles()
 
     useEffect(() => {
@@ -96,6 +108,14 @@ function Comment({ comment }) {
         setOpen(!open)
     }
 
+    const handleDeleteComment = async () => {
+        if ((context.user?._id == comment.userId) || (context.user?.isAuthor && user.isAdmin)) {
+            await Api.deleteCommentPost(postId, context.user._id, comment.id).then(res => {
+                window.location.reload()
+            })
+        }
+    }
+
     return (
         <React.Fragment>
             <div className={`m-2 ${classes.commentBox}`}>
@@ -103,9 +123,9 @@ function Comment({ comment }) {
 
                     <div>
                         <Link to={`/profile/${user.username}`} style={{ color: "inherit" }}>
-                            <Button color="defualt">
+                            <Button className={``} style={{ textTransform: "unset" }} color="defualt">
                                 <div className="profileImg-sm" style={{ backgroundImage: `url(${user.profileImg})` }}></div>
-                                <small>{user.username}</small>
+                                <small className="me-1">{user.username}</small>
                             </Button>
                         </Link>
                     </div>
@@ -115,20 +135,54 @@ function Comment({ comment }) {
                                 format(new Date(comment.time))
                             }
                         </small>
-                        <Button className="indigo lighten-4 rounded-circle p-1 m-2" style={{ color: "#5c6bc0", fontSize: "14px", minWidth: "auto", }} onClick={handleOpen}>
+                        <Button aria-controls={`commentMenu${menuId}`} className="indigo lighten-4 rounded-circle p-1 m-2" style={{ color: "#5c6bc0", fontSize: "14px", minWidth: "auto", }} data-bs-toggle="modal" data-bs-target={`#commentMenu${menuId}`}>
                             <MoreHorizRoundedIcon />
-                            <Slide direction="down" in={open} mountOnEnter unmountOnExit>
-                                <List aria-label="main mailbox folders">
-                                    <ListItem className="ListItem1 text-danger" button>
-                                        <ListItemIcon>
-                                            <DeleteRoundedIcon style={{ fontSize: "18px" }} />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Delete" />
-                                    </ListItem>
-                                </List>
-                                <Divider />
-                            </Slide>
                         </Button>
+
+                        <div className={`modal fade`} id={`commentMenu${menuId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby={`commentMenuLabel${menuId}`} aria-hidden="false">
+                            <div className={`modal-dialog modal-dialog-centered `}>
+                                <div className={`modal-content`}>
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id={`commentMenuLabel${menuId}`}>
+
+                                        </h5>
+                                        <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="Close" id={`closeCommentMenu${menuId}`}></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>
+                                        </p>
+                                        {
+                                            comment.id ?
+                                                <React.Fragment>
+                                                    <Button className="d-block w-100 rounded-pill m-2" style={{ fontFamily: "inherit" }} >
+                                                        اضافة بلاغ
+                                                    </Button>
+                                                    {
+                                                        (context.user?._id == comment.userId) || (context.user?.isAuthor && user.isAdmin) ?
+                                                            <React.Fragment>
+
+                                                                <Button className="d-block w-100 rounded-pill m-2" style={{ fontFamily: "inherit" }} color="secondary" onClick={handleDeleteComment}>
+                                                                    حذف التعليق
+                                                                </Button>
+
+                                                            </React.Fragment>
+                                                            :
+                                                            null
+                                                    }
+
+                                                </React.Fragment>
+                                                :
+                                                null
+                                        }
+                                    </div>
+                                    <div class="modal-footer">
+                                        {/* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> */}
+                                        {/* <button type="button" class="btn btn-primary">Understood</button> */}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
 
@@ -220,9 +274,10 @@ export default function Post({ }) {
             const answer = window.confirm("هل انت متاكد من انك تريد حذف المنشورة ؟ فلا يمكن استعادتها")
             if (answer) {
                 await Api.deletePost(post._id, context.user._id).then(res => {
-                    console.log(res.data)
-                    window.document.querySelector(`#closeOptionsModel${modleId}`).click()
-                    history.push(`/profile/${context.user.username}`)
+                    // console.log(res.data)
+                    // window.document.querySelector(`#closeOptionsModel${modleId}`).click()
+                    // history.push(`/profile/${context.user.username}`)
+                    window.location.pathname = `/profile/${context.user.username}`
                 })
             }
         }
@@ -328,7 +383,7 @@ export default function Post({ }) {
                             {
                                 post.comments?.map(c => {
 
-                                    return <Comment comment={c} />
+                                    return <Comment id={v4()} comment={c} postId={post._id} />
                                 })
                             }
                         </div>

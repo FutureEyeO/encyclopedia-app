@@ -13,8 +13,15 @@ import QueryBuilderRoundedIcon from '@material-ui/icons/QueryBuilderRounded';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import WatchLaterRoundedIcon from '@material-ui/icons/WatchLaterRounded';
+import EmailRoundedIcon from '@material-ui/icons/EmailRounded';
 
 import PostCard from '../components/elements/PostCard';
+import SocialMediaCard from '../components/elements/SocialMediaCard';
 
 import Api from '../functions/Api.js';
 
@@ -34,6 +41,10 @@ const useStyles = makeStyles({
     headerInfoBox: {
         // backdropFilter: "blur(10px)",
         // backgroundColor: "rgba(255, 255, 255, 0.8)",
+    },
+    cardInfo: {
+        fontSize: "15px",
+        padding: "4px 8px"
     }
 })
 
@@ -109,14 +120,44 @@ export default function Profile() {
                         <h3>
                             {user.name}
                         </h3>
-                        <div style={{ fontSize: "18px" }}>
-                            {user.username} <AlternateEmailRoundedIcon style={{ fontSize: "18px" }} />
+                        <div className="mt-2" style={{ fontSize: "18px" }}>
+                            <div className="d-flex">
+                                <div className={`blue-grey lighten-4 rounded-pill ${classes.cardInfo}`} style={{ color: "#78909c", }}>
+                                    {user.username} <AlternateEmailRoundedIcon style={{ fontSize: "18px" }} />
+                                </div>
+
+                            </div>
+
+                            {function () {
+                                console.log(user.publicEmail, user.publicEmail != "")
+                                if (user.publicEmail && user.publicEmail != "") {
+                                    return (
+                                        <div className="d-flex mt-2">
+
+                                            <div className={`purple lighten-3 rounded-pill ${classes.cardInfo}`} style={{ color: "#9c27b0", }}>
+                                                <EmailRoundedIcon style={{ fontSize: "18px" }} /> {user.publicEmail}
+                                            </div>
+
+                                        </div>
+                                    )
+                                }
+                            }()}
+
                         </div>
                     </div>
-                    <div>
-                        <div className={`mb-2`} style={{ direction: "ltr" }}>
-                            <span> <FileCopyRoundedIcon style={{ fontSize: "15px" }} /> {user.posts?.length} post</span>
-                            <span> <QueryBuilderRoundedIcon style={{ fontSize: "18px" }} /> {format(user.createdAt)} </span>
+                    <div className="mt-4">
+                        <div className={`d-flex mb-2`} style={{ direction: "ltr" }}>
+                            <div className={`blue-grey lighten-4 rounded-pill ${classes.cardInfo}`} style={{ color: "#78909c", }}>
+                                <FileCopyRoundedIcon style={{ fontSize: "18px" }} /> {user.posts?.length} post
+                            </div>
+
+
+
+
+                            <div className={`amber lighten-3 rounded-pill ms-2 ${classes.cardInfo}`} style={{ color: "#ff8f00  ", }}>
+                                <WatchLaterRoundedIcon style={{ fontSize: "18px" }} /> {format(user.createdAt)}
+                            </div>
+
                         </div>
                         {/* <div className={`d-flex `} style={{ direction: "ltr" }}>
 
@@ -125,11 +166,18 @@ export default function Profile() {
                                 {followers} Followers
                             </div>
                         </div> */}
-                        <div className="mb-3">
+                        <div style={{ fontSize: "18px" }}> 
+
+                            {user.desc}
+                        </div>
+                        <div className="d-flex mb-3">
                             <span>
                                 <LinkRoundedIcon style={{ fontSize: "23px" }} />
                                 <a href={user.website} target="_blank">{user.website}</a>
                             </span>
+                        </div>
+                        <div>
+                            <SocialMediaCard obj={user.socialMedia} />
                         </div>
                         <div className={`mb-3`}>
                             <Button style={{ fontFamily: "inherit", borderRadius: "10px" }} variant="contained" color="primary">

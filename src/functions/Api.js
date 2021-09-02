@@ -170,8 +170,8 @@ const unfollowUser = async (id, userId) => {
     return await axios.put(`${proxy}/users/${id}/unfollow`, { userId: userId })
 }
 
-const fetchAllUsers = async () => {
-    const res = await axios.get(`${proxy}/users/get_all_users`)
+const fetchAllUsers = async (limit = 100) => {
+    const res = await axios.get(`${proxy}/users/get_all_users`, { params: { limit } })
     // res.data = reverseResArray(res.data)
     // res.data.map(resData => {
     //     resData = addPathToMedia(resData, "user")
@@ -230,7 +230,7 @@ const commentPost = async (id, userId, text) => {
 }
 
 const deleteCommentPost = async (id, userId, commentId) => {
-    return await axios.delete(`${proxy}/posts/${id}/comment`, { userId, commentId })
+    return await axios.delete(`${proxy}/posts/${id}/comment`, { params: { userId, commentId } })
 }
 
 const addViewsCountPost = async (id) => {
@@ -243,8 +243,8 @@ const fetchPost = async (id) => {
     return res
 }
 
-const searchPosts = async (labels, category) => {
-    const res = await axios.get(`${proxy}/posts/search/all/?labels=${labels}&category=${category}`)
+const searchPosts = async (labels, category, limit = 20) => {
+    const res = await axios.get(`${proxy}/posts/search/all`, { params: { labels, category, limit } })
     res.data = addPathToMedia(res.data, "post")
     return res
 }
@@ -425,6 +425,12 @@ const getIpInfo = async (ip) => {
     return res
 }
 
+// ! ADMIN : 
+const fetchAllAuthors = async (limit=100) => {
+    const res = await axios.get(`${constants.adminApi}/author/0/all`, { params: { limit } })
+    return res
+}
+
 export default {
     registerUser,
     loginUser,
@@ -481,5 +487,7 @@ export default {
     postVisitsLogStatistic,
     getVisitCountStatistic,
     getIpInfo,
+
+    fetchAllAuthors,
 }
 

@@ -22,6 +22,9 @@ import EditProfile from "./pages/EditProfile.jsx"
 import Profile from "./pages/Profile.jsx"
 import Post from './pages/Post.jsx';
 import Search from './pages/Search.jsx';
+import Whatis from './pages/Whatis.jsx';
+import Help from "./pages/Help.jsx";
+import Authors from "./pages/Authors.jsx";
 
 // Components 
 import Navbar from './components/Navbar/Navbar.jsx';
@@ -134,6 +137,15 @@ function App() {
                                 </Route>
                             </React.Fragment>
             
+                    </Route>
+                    <Route path="/whatis">
+                        <Whatis/>
+                    </Route>
+                    <Route path="/help">
+                        <Help/>
+                    </Route>
+                    <Route path="/authors">
+                        <Authors/>
                     </Route>
 
                 </div>

@@ -15,19 +15,20 @@ import { AuthContext } from '../context/AuthContext';
 import { loginApiContext, autoLoginApiContext } from '../ApiContext';
 
 // material 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import { CircularProgress, LinearProgress } from "@material-ui/core"
 import Backdrop from '@material-ui/core/Backdrop';
 import Browser from '../functions/Browser';
 
-
 const useStyles = makeStyles((theme) => ({
+
     backdrop: {
         zIndex: 1000000000000,
         color: '#fff',
     },
 }));
+
 
 
 export default function Login() {
@@ -40,25 +41,9 @@ export default function Login() {
     const classes = useStyles();
     const [openBackdrop, setOpenBackdrop] = React.useState(false);
 
+
+
     useEffect(async () => {
-
-        // await autoLoginApiContext(context.dispatch)
-
-            // console.log(res)
-            // let lastUrlVistedArray = Browser.getHistoryUrl()
-            // console.log(lastUrlVistedArray)
-            // let lastUrlVisted = lastUrlVistedArray[lastUrlVistedArray.length - 1]
-            // console.log(lastUrlVisted, window.location.href, lastUrlVisted != window.location.href)
-
-            // history.go("http://localhost:3000/profile/test2")
-            // if (lastUrlVisted != window.location.href) {
-
-            //     history.go(lastUrlVisted)
-            // } 
-            // else {
-            //     history.go(window.location.host)
-            // }
-
 
     }, [])
 
@@ -72,7 +57,11 @@ export default function Login() {
             userPassword: inputPassword.current.value
         }
 
-        const res = await loginApiContext(userCredentials, context.dispatch)
+        await loginApiContext(userCredentials, context.dispatch).then(res => {
+           
+                window.location.pathname = "/"
+
+        })
 
     }
 
@@ -80,6 +69,7 @@ export default function Login() {
 
     return (
         <React.Fragment>
+
 
             {
                 context.isFetching ?
@@ -91,9 +81,9 @@ export default function Login() {
                 // setOpen(false)
             }
             {
-                context.user ? <Redirect exact to="/" /> : <Redirect to="/login" />
+                // context.user && context.user._id && !context.isFetching ? window.location.pathname = "/" : null
             }
-            <div className="card text-center m-auto custom-card" style={{ maxWidth: "500px" }}>
+            <div className="card text-center m-auto custom-card" style={{ maxWidth: "500px", fontSize: "inh" }}>
                 <div className="card-header">
                     LOGIN
                 </div>
@@ -116,9 +106,9 @@ export default function Login() {
 
                                     {
                                         context.isFetching ?
-                                            <CircularProgress disableShrink color="white" size="20px" className="ms-1" thickness={5} style={{ marginBottom: "-5px" }} />
+                                            <CircularProgress disableShrink color="white" size="20px" className="me-1" thickness={5} style={{ marginBottom: "-5px" }} />
                                             :
-                                            <LockOpenRoundedIcon className="ms-1" />
+                                            <LockOpenRoundedIcon className="me-1" />
                                     }
                                 </div>
                             </button>

@@ -26,6 +26,10 @@ import ExploreIcon from '@material-ui/icons/Explore';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded';
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
+import Drawer from '@material-ui/core/Drawer';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+
+import { v4 } from 'uuid';
 
 import "./Navbar.css"
 
@@ -79,10 +83,59 @@ const useStyles = makeStyles({
         borderRadius: "10px",
         boxShadow: "0 0 70px 0 #6e6e6e",
         backgroundColor: "rgba(240, 240, 240, 0.95) !important",
-    }
+    },
 
-
+    navbarList: {
+        borderRadius: "10px",
+        boxShadow: "0 0 70px 0 #6e6e6e",
+        backgroundColor: "rgba(240, 240, 240, 0.95) !important",
+    },
+    list: {
+        width: 250,
+    },
 });
+
+
+// export default function List() {
+//     const classes = useStyles();
+//     const [open, setOpen] = React.useState(false);
+
+//    const handleOpen = () => {
+//        setOpen(!open)
+//    }
+
+//     const list = (anchor) => (
+//         <div
+//             className={`${classes.list}`}
+//             role="presentation"
+//             onClick={handleOpen()}
+//         >
+//             <List>
+//                 <ListItem button key={v4()}>
+//                     <ListItemIcon></ListItemIcon>
+//                     <ListItemText primary="u" />
+//                 </ListItem>
+//             </List>
+//             <Divider />
+
+//         </div>
+//     );
+
+
+//     return (
+//         <div>
+//                 <React.Fragment key={anchor}>
+//                     <Button onClick={handleOpen()}></Button>
+//                     <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+//                         {list(anchor)}
+//                     </Drawer>
+//                 </React.Fragment>
+
+//         </div>
+//     );
+
+// }
+
 
 function Navbar() {
 
@@ -92,8 +145,9 @@ function Navbar() {
     const history = useHistory()
     const [path, setPath] = useState(window.location.pathname)
 
+    const [open, setOpen] = useState(false);
 
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({ })
     // const [timeTaken, setTimeTaken] = useState(0)
     const [isUserLogin, setIsUserLogin] = useState(false)
 
@@ -102,14 +156,56 @@ function Navbar() {
         event.preventDefault()
     }
 
+    const handleOpen = () => {
+        setOpen(!open)
+    }
+    const handleClose = () => {
+        setOpen(false)
+    }
+
+
+    function NavbarList() {
+
+        return (
+            <SwipeableDrawer anchor={`left`} open={open} onClose={handleOpen}>
+                <div
+                    className={`${classes.list}`}
+                    role="presentation"
+                    onClick={handleOpen}
+                >
+                    <List>
+                        <Link className="d-block" to={`/`} role="button" button style={{ color: "#424242", fontFamily: "inherit" }}>
+                            <ListItem button>
+                                <ListItemIcon><HomeRoundedIcon /></ListItemIcon>
+                                <ListItemText primary="الصفحة الرئيسية" />
+                            </ListItem>
+                        </Link>
+                        <Link className="d-block" to={`/categories`} role="button" button style={{ color: "#424242", fontFamily: "inherit" }}>
+                            <ListItem button>
+                                <ListItemIcon><ViewAgendaIcon /></ListItemIcon>
+                                <ListItemText primary="التصنيفات" />
+                            </ListItem>
+                        </Link>
+                        <Link className="d-block" to={`/help`} role="button" button style={{ color: "#424242", fontFamily: "inherit" }}>
+                            <ListItem button>
+                                <ListItemIcon><HelpRoundedIcon /></ListItemIcon>
+                                <ListItemText primary="الدعم" />
+                            </ListItem>
+                        </Link>
+                    </List>
+                    <Divider />
+                </div>
+            </SwipeableDrawer>
+        );
+    }
 
 
     useEffect(async () => {
-            timeTaken = 0
-            let ip = (await (await fetch("https://api.ipify.org/?format=json")).json()).ip
-            let ipInfo = await Api.getIpInfo(ip)
-            Api.postStatistic(ip, context.user?._id, path, timeTaken, ipInfo.data)
-            Api.postVisitsLogStatistic(path, `${new Date().getDay()}-${new Date().getMonth()}-${new Date().getFullYear()}`, ip, context.user?._id, timeTaken)
+        timeTaken = 0
+        let ip = (await (await fetch("https://api.ipify.org/?format=json")).json()).ip
+        let ipInfo = await Api.getIpInfo(ip)
+        Api.postStatistic(ip, context.user?._id, path, timeTaken, ipInfo.data)
+        Api.postVisitsLogStatistic(path, `${new Date().getDay()}-${new Date().getMonth()}-${new Date().getFullYear()}`, ip, context.user?._id, timeTaken)
     }, [context.user?._id])
 
 
@@ -142,11 +238,20 @@ function Navbar() {
             <nav className={`navbar navbar-expand-md border-bottom sticky-top p-0 ${classes.navbar}`}>
                 <div className="container-fluid p-0">
                     <Link to="/" className={`navbar-brand position-relative m-0 ${classes.navbarBrand}`}>شعلة <i class="fas fa-fire"></i></Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation" style={{ border: "unset", boxShadow: "unset" }}>
+                    <button
+                        className="navbar-toggler" type="button"
+                        // data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" 
+                        // aria-controls="navbarTogglerDemo02" 
+                        aria-expanded="false"
+                        // aria-label="Toggle navigation" 
+                        onClick={handleOpen}
+                        style={{ border: "unset", boxShadow: "unset" }}>
                         <AppsRoundedIcon style={{ color: "#424242" }} />
                     </button>
 
-                    <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <div className="collapse navbar-collapse"
+                    // id="navbarTogglerDemo02"
+                    >
                         <div className="navbar-nav me-auto pb-md-0 pb-3 d-flex flex-row flex-wrap justify-content-around w-100">
                             <Link to={`/`} className="m-2 m-md-0">
                                 <Chip
@@ -230,6 +335,10 @@ function Navbar() {
 
             </nav>
 
+            <NavbarList />
+
+
+
         </React.Fragment>
 
     )
@@ -283,31 +392,31 @@ function UserMenu({ user }) {
                     <div className="profileImg-sm" style={{ backgroundImage: `url(${user.profileImg})` }} >
                         <Slide direction="down" className={`custom-menu ${classes.menu}`} in={checked} mountOnEnter unmountOnExit>
                             <div>
-                                <List aria-label="main mailbox folders">
-                                    <Link className="d-block" to={`/profile/${user.username}`} role="button" button>
+                                <List aria-label="main mailbox folders" style={{ width: "250px" }}>
+                                    <Link className="d-block" to={`/profile/${user.username}`} role="button" button style={{ fontFamily: "inherit" }}>
                                         <ListItem className="ListItem1" button>
                                             <ListItemIcon>
                                                 <AccountCircleRoundedIcon style={{ fontSize: "18px" }} />
                                             </ListItemIcon>
-                                            <ListItemText primary="Profile" />
+                                            <ListItemText primary="الصفحة الشخصية" />
                                         </ListItem>
 
                                     </Link>
 
-                                    <Link className="d-block" to={`/settings`} role="button" button>
+                                    <Link className="d-block" to={`/settings`} role="button" button style={{ fontFamily: "inherit" }}>
                                         <ListItem className="ListItem1" button>
                                             <ListItemIcon>
                                                 <SettingsRoundedIcon style={{ fontSize: "18px" }} />
                                             </ListItemIcon>
-                                            <ListItemText primary="Settings" />
+                                            <ListItemText primary="الاعدادات" />
                                         </ListItem>
                                     </Link>
 
-                                    <ListItem className="ListItem1" button onClick={handleLogout}>
+                                    <ListItem className="ListItem1" button onClick={handleLogout} style={{ fontFamily: "inherit" }}>
                                         <ListItemIcon>
                                             <MeetingRoomRoundedIcon style={{ fontSize: "18px" }} />
                                         </ListItemIcon>
-                                        <ListItemText primary="Logout" />
+                                        <ListItemText style={{ fontFamily: "inherit" }} primary="تسجيل الخروج" />
                                     </ListItem>
                                 </List>
                                 <Divider />

@@ -13,6 +13,7 @@ import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import MoreHorizRoundedIcon from '@material-ui/icons/MoreHorizRounded';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import WatchLaterRoundedIcon from '@material-ui/icons/WatchLaterRounded';
+import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 
 import Flame from "../components/icons/Flame"
 import SearchBox from "../components/elements/SearchBox"
@@ -20,6 +21,10 @@ import ListItemCollapse from '../components/elements/ListItemCollapse';
 
 import Api from '../functions/Api';
 import LoginModle from '../components/elements/LoginModle';
+import constants from '../constant/general';
+import data from '../constant/data';
+import AuthorCard from '../components/elements/AuthorCard';
+import UnfoldMoreRounded from '@material-ui/icons/UnfoldMoreRounded';
 
 const styles = {
     header: {
@@ -110,9 +115,15 @@ export default function Home() {
             <div className="" style={{ marginTop: "8rem" }}>
                 <div className="w-100">
 
-                    <div className="" style={{ width: "100%", border: "2px solid #d500f945  ", borderRadius: "10px" }}>
+                    <div className="" style={{ width: "100%", borderRadius: "10px" }}>
                         <div className="p-2">
-                            <h4>الاكثر اعجابا</h4>
+                            <h4>
+                                الاكثر اعجابا
+                                <FavoriteRoundedIcon />
+                            </h4>
+
+                            <div className="line"></div>
+
                         </div>
                         <div className="d-flex flex-wrap justify-content-center" style={{ transition: "all 1s ease", }}>
 
@@ -127,9 +138,13 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <div className="mt-5" style={{ width: "100%", border: "2px solid #651fff45  ", borderRadius: "10px" }}>
+                    <div className="mt-5" style={{ width: "100%", borderRadius: "10px" }}>
                         <div className="p-2">
-                            <h4>أحدث المنشورات</h4>
+                            <h4>
+                                أحدث المنشورات
+                                <WatchLaterRoundedIcon />
+                            </h4>
+                            <div className="line"></div>
                         </div>
                         <div className="d-flex flex-wrap justify-content-center">
 
@@ -143,12 +158,42 @@ export default function Home() {
                         </div>
                     </div>
 
+                    <div className="mt-5" style={{ width: "100%", borderRadius: "10px" }}>
+                        <div className="p-2">
+                            <h4>
+                                أشهر المؤلفين
+                                <PeopleAltRoundedIcon />
+                            </h4>
+                            <div className="line"></div>
+                        </div>
+                        <div className="d-flex flex-wrap justify-content-center">
+
+
+                            {
+                                data.famousAuthors.map(authorId => {
+                                    return <AuthorCard authorId={authorId} />
+                                })
+                            }
+
+
+
+                        </div>
+                        <div>
+                            <Button className={`deep-purple lighten-3 rounded-pill m-2 ${``}`}>
+                                <Link to={`/authors`} style={{ color: "#673ab7 ", }}>
+                                    عرض المزيد
+                                    <UnfoldMoreRounded />
+                                </Link>
+                            </Button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
 
-            <LoginModle/>
-            
+            <LoginModle />
+
         </React.Fragment >
     )
 }
@@ -179,7 +224,8 @@ export default function Home() {
 
         <div className="d-flex flex-column" style={{ width: "45%" }}>
             <div>
-                <h4>الاكثر بحثا</h4>
+                <h4>
+                    الاكثر بحثا</h4>
             </div>
             <div className={`p-4 mt-2 d-flex grey lighten-3 d-block`} style={styles.infoCard}>
                 <ListItemCollapse

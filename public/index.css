@@ -25,6 +25,7 @@ body {
 }
 body * {
     direction: rtl;
+    font-family: "Cairo", sans-serif !important;
 }
 
 .btn-shadow {
@@ -142,7 +143,14 @@ a {
 
 
 label {
-    font-family: "inherit" !important
+    /* font-family: "inherit" !important */
+}
+
+.dir-ltr-all * {
+    direction: ltr !important;
+}
+.dir-rtl-all * {
+    direction: rtl !important;
 }
 /* 
 input {
