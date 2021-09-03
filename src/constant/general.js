@@ -1,11 +1,11 @@
 const constants = {
 
-    proxy: "http://localhost:8800/api",
-    statisticsApi: "http://localhost:8800/statistics",
-    adminApi: "http://localhost:8700/api",
-    socket: "http://localhost:8900/api",
-    UPLOAD_USER_URL: `http://localhost:8800/api/public/user`,
-    UPLOAD_POST_URL: `http://localhost:8800/api/public/post`,
+    proxy: "https://encyclopedia-api.herokuapp.com/api",
+    statisticsApi: "https://encyclopedia-api.herokuapp.com/statistics",
+    adminApi: "https://encyclopedia-apd.herokuapp.com/api",
+    socket: "https://encyclopedia-socket.herokuapp.com/",
+    UPLOAD_USER_URL: `https://encyclopedia-api.herokuapp.com/api/public/user`,
+    UPLOAD_POST_URL: `https://encyclopedia-api.herokuapp.com/api/public/post`,
 
     UPLOAD_POST_PATH:`assets/data/post`,
     UPLOAD_USER_PATH: `assets/data/user`,
