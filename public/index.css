@@ -75,8 +75,8 @@ a {
     background-repeat: no-repeat;
     background-image: url("assets/data/default/cover.jpg");
     display: flex;
-    justify-content: end;
-    align-items: end;
+    justify-content: start;
+    align-items: start;
 }
 
 .profileDiv-profileImg {
