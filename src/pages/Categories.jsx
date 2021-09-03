@@ -116,15 +116,7 @@ const fs = require("fs")
 //                                         )
 //                                     })
 //                                 }
-//                                 {
-//                                     Array.from(Object.keys(posts)).map(postId => {
-//                                         return (
-//                                             <div className={`${classes.postCardBorder}`}>
-//                                                 <PostCard postId={postId}  />
-//                                             </div>
-//                                         )
-//                                     })
-//                                 }
+//                                 
 
 
 //                             </div>
