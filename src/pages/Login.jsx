@@ -58,8 +58,6 @@ export default function Login() {
         }
 
         await loginApiContext(userCredentials, context.dispatch).then(res => {
-           
-                window.location.pathname = "/"
 
         })
 
@@ -83,6 +81,7 @@ export default function Login() {
             {
                 // context.user && context.user._id && !context.isFetching ? window.location.pathname = "/" : null
             }
+{ context.user ? <Redirect exact to="/" /> : <Redirect to="/login" /> }
             <div className="card text-center m-auto custom-card" style={{ maxWidth: "500px", fontSize: "inh" }}>
                 <div className="card-header">
                     LOGIN
