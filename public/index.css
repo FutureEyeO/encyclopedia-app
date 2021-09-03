@@ -73,7 +73,6 @@ a {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    background-color: lightgray;
     background-image: url("assets/data/default/cover.jpg");
     display: flex;
     justify-content: end;
@@ -85,7 +84,6 @@ a {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    background-color: lightgray;
     background-image: url("assets/data/default/profile.jpg");
     width: 164px;
     height: 164px;
