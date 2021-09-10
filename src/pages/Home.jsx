@@ -82,9 +82,9 @@ export default function Home() {
                 <div className="w-100">
                     <div className="mb-5" style={styles.headerText}>
                         <h1><i class="fas fa-fire"></i> موسوعة شعلة</h1>
-                        <h4 style={{ lineHeight: "2.2rem" }}>
-                            موسوعة مخصتصة بنشر الثقافة في مختلف العلوم والمجالات ومهتمة بطرح المواضيع المفيدة والمهمة.
-                        </h4>
+                        <h3 style={{ lineHeight: "2.2rem" }}>
+                            موسوعة مختصة بنشر الثقافة في مختلف العلوم والمجالات ومهتمة بطرح المواضيع المفيدة والمهمة.
+                        </h3>
                     </div>
 
                     <div className="p-4 mt-2" style={styles.viewersCard}>
